@@ -15,4 +15,8 @@ public interface PatientService {
     Map<String, Object> getConsiliaNameIntro(ConsiliaNameIntroReq req);
 
     Map<String, Object> getConsiliaDetail(ConsiliaDetailReq req);
+
+    Map<String, Object> getConsiliaIllnessDir(ConsiliaIllnessDirReq req);
+
+    Map<String, Object> getConsiliaPrescriptionDir(ConsiliaPrescriptionDirReq req);
 }

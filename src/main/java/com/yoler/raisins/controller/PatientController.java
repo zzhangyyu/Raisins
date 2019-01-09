@@ -65,6 +65,26 @@ public class PatientController {
         return result;
     }
 
+    @RequestMapping(value = "getConsiliaIllnessDir", method = RequestMethod.POST)
+    public String getConsiliaIllnessDir(@RequestBody String reqJson) {
+        logger.debug("getConsiliaIllnessDir req is :" + reqJson);
+        ConsiliaIllnessDirReq req = GsonUtil.jsonToObject(reqJson, ConsiliaIllnessDirReq.class);
+        Map<String, Object> resultMap = patientService.getConsiliaIllnessDir(req);
+        String result = GsonUtil.objectToJson(resultMap);
+        logger.debug("getConsiliaIllnessDir resp is :" + result);
+        return result;
+    }
+
+    @RequestMapping(value = "getConsiliaPrescriptionDir", method = RequestMethod.POST)
+    public String getConsiliaPrescriptionDir(@RequestBody String reqJson) {
+        logger.debug("getConsiliaPrescriptionDir req is :" + reqJson);
+        ConsiliaPrescriptionDirReq req = GsonUtil.jsonToObject(reqJson, ConsiliaPrescriptionDirReq.class);
+        Map<String, Object> resultMap = patientService.getConsiliaPrescriptionDir(req);
+        String result = GsonUtil.objectToJson(resultMap);
+        logger.debug("getConsiliaPrescriptionDir resp is :" + result);
+        return result;
+    }
+
     @RequestMapping(value = "getConsiliaDetail", method = RequestMethod.POST)
     public String getConsiliaDetail(@RequestBody String reqJson) {
         logger.debug("getConsiliaDetail req is :" + reqJson);

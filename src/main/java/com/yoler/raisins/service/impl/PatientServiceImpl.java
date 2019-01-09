@@ -90,6 +90,44 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public Map<String, Object> getConsiliaIllnessDir(ConsiliaIllnessDirReq req) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> queryMap = new HashMap<>();
+        String illnessLike = req.getContent().getIllnessLike();
+        if (StringUtil.isEmpty(illnessLike)) {
+            return null;
+        } else {
+            int recordPerPage = Integer.MAX_VALUE;
+            queryMap.put("beginRowNum", 0);
+            queryMap.put("recordPerPage", recordPerPage);
+            queryMap.put("illnessLike", illnessLike);
+        }
+        List<ConsiliaIllnessDirVo> consiliaIllnessDirVos = patientConditionMapper.getConsiliaIllnessDir(queryMap);
+        result.put("content", consiliaIllnessDirVos);
+        result.put("status", "200");
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getConsiliaPrescriptionDir(ConsiliaPrescriptionDirReq req) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> queryMap = new HashMap<>();
+        String prescriptionLike = req.getContent().getPrescriptionLike();
+        if (StringUtil.isEmpty(prescriptionLike)) {
+            return null;
+        } else {
+            int recordPerPage = Integer.MAX_VALUE;
+            queryMap.put("beginRowNum", 0);
+            queryMap.put("recordPerPage", recordPerPage);
+            queryMap.put("prescriptionLike", prescriptionLike);
+        }
+        List<ConsiliaPrescriptionDirVo> consiliaPrescriptionDirVo = patientConditionMapper.getConsiliaPrescriptionDir(queryMap);
+        result.put("content", consiliaPrescriptionDirVo);
+        result.put("status", "200");
+        return result;
+    }
+
+    @Override
     public Map<String, Object> getConsiliaDetail(ConsiliaDetailReq req) {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> queryMap = new HashMap<>();
@@ -99,4 +137,5 @@ public class PatientServiceImpl implements PatientService {
         result.put("status", "200");
         return result;
     }
+
 }
