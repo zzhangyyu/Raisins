@@ -57,6 +57,24 @@
         <result column="consilia_cnt" jdbcType="VARCHAR" property="consiliaCnt"/>
     </resultMap>
 
+    <resultMap id="ConsiliaIllnessDirResult" type="com.yoler.raisins.vo.ConsiliaIllnessDirVo">
+        <result column="patient_name" jdbcType="VARCHAR" property="patientName"/>
+        <result column="patient_sex" jdbcType="VARCHAR" property="patientSex"/>
+        <result column="patient_info_id" jdbcType="VARCHAR" property="patientInfoId"/>
+        <result column="visiting_date" jdbcType="VARCHAR" property="visitingDate"/>
+        <result column="illness" jdbcType="VARCHAR" property="illness"/>
+        <result column="patient_condition_id" jdbcType="VARCHAR" property="patientConditionId"/>
+    </resultMap>
+
+    <resultMap id="ConsiliaPrescriptionDirResult" type="com.yoler.raisins.vo.ConsiliaPrescriptionDirVo">
+        <result column="patient_name" jdbcType="VARCHAR" property="patientName"/>
+        <result column="patient_sex" jdbcType="VARCHAR" property="patientSex"/>
+        <result column="patient_info_id" jdbcType="VARCHAR" property="patientInfoId"/>
+        <result column="visiting_date" jdbcType="VARCHAR" property="visitingDate"/>
+        <result column="patient_condition_id" jdbcType="VARCHAR" property="patientConditionId"/>
+        <result column="prescription_name" jdbcType="VARCHAR" property="prescriptionName"/>
+    </resultMap>
+
     <select id="getConsiliaDateDir" parameterType="java.util.Map" resultMap="ConsiliaDateDirResult">
         SELECT
         t.visiting_date,
@@ -110,6 +128,36 @@
         s.zhao_sir_say
         FROM Patient_Condition t, Prescription s, Patient_Info l
         WHERE t.id = #{patientConditionId} AND t.id = s.patient_condition_id AND l.id = t.patient_info_id
+    </select>
+
+    <select id="getConsiliaIllnessDir" parameterType="java.util.Map" resultMap="ConsiliaIllnessDirResult">
+        select s.name patient_name,
+               s.sex  patient_sex,
+               s.id   patient_info_id,
+               t.visiting_date,
+               t.illness,
+               t.id   patient_condition_id
+        from Patient_Condition t,
+             Patient_Info s
+        where t.patient_info_id = s.id
+          and t.illness like CONCAT('%', #{illnessLike}, '%')
+          order by t.visiting_date desc
+    </select>
+
+    <select id="getConsiliaPrescriptionDir" parameterType="java.util.Map" resultMap="ConsiliaPrescriptionDirResult">
+        select s.name patient_name,
+               s.sex  patient_sex,
+               s.id   patient_info_id,
+               t.visiting_date,
+               t.id   patient_condition_id,
+               r.prescription_name
+        from Patient_Condition t,
+             Patient_Info s,
+             Prescription r
+        where t.patient_info_id = s.id
+          and t.id = r.patient_condition_id
+          and r.prescription_name like CONCAT('%', #{prescriptionLike}, '%')
+          order by t.visiting_date desc
     </select>
 
 </mapper>
